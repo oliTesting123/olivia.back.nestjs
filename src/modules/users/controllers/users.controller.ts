@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UsersService } from '../services/users.service';
+import { getFormattedDate } from 'olisua-moment-lib';
 
 @Controller('users')
 export class UsersController {
@@ -10,14 +11,18 @@ export class UsersController {
     private readonly usersService: UsersService,  
   ) {}
 
-    @Post()
-    create(@Body() query: CreateUserDto) {
-      return this.usersService.create(query);
-    }
-  
+  @Get('date')
+    mydate() {
+      return getFormattedDate();
+    } 
     @Get()
     findAll() {
       return this.usersService.findAll();
+    }
+
+    @Post()
+    create(@Body() query: CreateUserDto) {
+      return this.usersService.create(query);
     }
 
     @Put(':id')
@@ -32,6 +37,7 @@ export class UsersController {
     async remove(
       @Param('id') id: number
     ) {
+      // console.log( formattedDate );
       return this.usersService.remove(id);
   }
   
